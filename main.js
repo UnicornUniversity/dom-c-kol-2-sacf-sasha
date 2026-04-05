@@ -1,35 +1,62 @@
-//TODO add imports if needed
-//import { exMain } from "./exclude/exampleAss2.js"
-//TODO add/change doc as needed
 /**
- * TODO - Write functional code for this application. You can call any other function, but usage of ".toString(numberSystem)" and "Number.parseInt(number, numberSystem)" is forbidden (only permitted when used on individual digits).
- * The main function which calls the application. 
- * TODO - Please, add specific description here for the application purpose.
+  * The main function which calls the application. 
  * @param {string} inputNumber number that is being converted
  * @param {number} inputNumberSystem numerical system that the inputNumber is being converted from
  * @param {number} outputNumberSystem numerical system that the inputNumber is being converted into
  * @returns {string} containing number converted to output system
  */
 export function main(inputNumber, inputNumberSystem, outputNumberSystem) {
-  //TODO code
-  //let dtoOut = exMain(inputNumber, inputNumberSystem, outputNumberSystem);
-  return dtoOut;
+  // pokud je vstupní číslo prázdné, vrátíme 0
+  if (inputNumber === "") {
+    return "0";
+  }
+  // pokud neni vstupní číselný system 2 nebo výstupní číselný system 10, vrátíme chybu
+  if (inputNumberSystem !== 2 || outputNumberSystem !== 10) {
+    return "Error: only 2 to 10";
+  }
+// inicializace proměných
+  let cislo2 = inputNumber;
+  let cislo10 = 0;
+  let pozice = 0;
+
+// převod binárního čísla na desítkové
+  while (cislo2.length > 0) {
+    const bit = cislo2[cislo2.length - 1];
+
+    if (bit === '1') {
+      cislo10 += Math.pow(2, pozice);
+    } else if (bit !== '0') {
+      return "Error: only 0 and 1!";
+    }
+// odebrani posledního bitu a zvětšení pozice
+    cislo2 = cislo2.slice(0, -1);
+    pozice++;
+  }
+// převod desítkového čísla do resultu
+  if (cislo10 === 0) return "0";
+  
+  let result = "";
+  let temp = cislo10;
+  while (temp > 0) {
+    result = (temp % 10) + result;
+    temp = Math.floor(temp / 10);
+  }
+
+  return result;
 }
 
 /**
- * TODO - Change this to contain all input number systems that your application can convert from.
  * Function which returns which number systems are permitted on input.
  * @returns {Array} array of numbers refering to permitted input systems
  */
 export function permittedInputSystems() {
-	return [10, 2];
+	return [2];
 }
 
 /**
- * TODO - Change this to contain all output number systems that your application can convert to.
  * Function which returns which number systems are permitted on output.
  * @returns {Array} array of numbers refering to permitted output systems
  */
 export function permittedOutputSystems() {
-	return [10, 2];
+	return [10];
 }
